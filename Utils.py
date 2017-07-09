@@ -9,7 +9,6 @@ from urllib import urlencode
 
 #Nonce Length
 JUBI_NONCE_LENGHT = 12
-JUBI_PARAMETER_ORDER = ['nonce', 'since', 'key', 'coin', 'type']
 
 def getMd5Hash(s):
 	m = hashlib.md5()
