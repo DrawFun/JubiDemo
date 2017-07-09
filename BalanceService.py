@@ -28,7 +28,7 @@ class BalanceService(BaseService.BaseService):
 		original_params = {'nonce' : nonce, 'key' : self.public_key}
 		params = Utils.reformat_params(original_params, self.private_key)
 		url = self.restful_url + BalanceService.POST_BALANCE
-		self.logger.info('post_balance: %s' % url)
+		self.logger.info('post_balance: %s, %s' % (url, params))
 		response = requests.post(url, data = params)
 		return response.content if response else ''			
 
@@ -37,19 +37,25 @@ class BalanceService(BaseService.BaseService):
 		original_params = {'coin' : coin, 'since' : since, 'type' : trade_type, 'nonce' : nonce, 'key' : self.public_key}
 		params = Utils.reformat_params(original_params, self.private_key)
 		url = self.restful_url + BalanceService.POST_TRADE_LIST
-		self.logger.info('post_trade_list: %s' % url)
+		self.logger.info('post_trade_list: %s, %s' % (url, params))
 		response = requests.post(url, data = params)
 		return response.content if response else ''	
 
 	def post_trade_view(self, coin, trade_id):
-		#The API document of Jubi is suck! 
-		#I have tried all possible orders but I still can't figure out the correct parameter order! 
-		raise NotImplementedError		
+		nonce = Utils.generate_nonce()
+		original_params = {'coin' : coin, 'id' : trade_id, 'nonce' : nonce, 'key' : self.public_key}
+		params = Utils.reformat_params(original_params, self.private_key)
+		url = self.restful_url + BalanceService.POST_TRADE_VIEW
+		self.logger.info('post_trade_view: %s, %s' % (url, params))
+		response = requests.post(url, data = params)
+		return response.content if response else ''		
 
 if __name__ == '__main__':
 	logging.basicConfig(level=logging.DEBUG)
 	balanceService = BalanceService()
 	balance = balanceService.post_balance()
 	print balance
-	trade_list = balanceService.post_trade_list('doge', 1483200000, 'all')
+	trade_list = balanceService.post_trade_list('doge', 1483200000, 'open')
 	print trade_list
+	# trade_view = balanceService.post_trade_view('doge', 123)
+	# print trade_view	

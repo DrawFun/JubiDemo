@@ -4,6 +4,8 @@
 import hashlib
 import hmac
 import time
+from collections import OrderedDict
+from urllib import urlencode
 
 #Nonce Length
 JUBI_NONCE_LENGHT = 12
@@ -26,12 +28,12 @@ def generate_signature(msg, private_key):
 	signature = hmac.new(k, msg, digestmod = hashlib.sha256).hexdigest()
 	return signature
 
-def reformat_params(params, private_key, specific_setting_order = None):
-	order = specific_setting_order if specific_setting_order else JUBI_PARAMETER_ORDER
-	param_str = '&'.join(['%s=%s' % (name, params[name]) for name in order if params.has_key(name)])
+def reformat_params(params, private_key):
+	orderDict = OrderedDict(params)
+	param_str = '&'.join(['%s=%s' % (str(k), str(v)) for (k, v) in orderDict.items()])
 	signature = generate_signature(param_str, private_key)
-	params['signature'] = signature
-	return params
+	orderDict['signature'] = signature
+	return orderDict
 
 if __name__ == '__main__':
 	pass
