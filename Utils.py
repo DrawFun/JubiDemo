@@ -30,7 +30,7 @@ def generate_signature(msg, private_key):
 
 def reformat_params(params, private_key):
 	orderDict = OrderedDict(params)
-	param_str = '&'.join(['%s=%s' % (str(k), str(v)) for (k, v) in orderDict.items()])
+	param_str = urlencode(orderDict) #'&'.join(['%s=%s' % (str(k), str(v)) for (k, v) in orderDict.items()])
 	signature = generate_signature(param_str, private_key)
 	orderDict['signature'] = signature
 	return orderDict
