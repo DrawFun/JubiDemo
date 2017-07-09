@@ -7,7 +7,7 @@ import time
 
 #Nonce Length
 JUBI_NONCE_LENGHT = 12
-JUBI_PARAMETER_ORDER = ['nonce', 'key', 'since', 'coin', 'type']
+JUBI_PARAMETER_ORDER = ['nonce', 'since', 'key', 'coin', 'type']
 
 def getMd5Hash(s):
 	m = hashlib.md5()
@@ -26,8 +26,9 @@ def generate_signature(msg, private_key):
 	signature = hmac.new(k, msg, digestmod = hashlib.sha256).hexdigest()
 	return signature
 
-def reformat_params(params, private_key):
-	param_str = '&'.join(['%s=%s' % (name, params[name]) for name in JUBI_PARAMETER_ORDER if params.has_key(name)])
+def reformat_params(params, private_key, specific_setting_order = None):
+	order = specific_setting_order if specific_setting_order else JUBI_PARAMETER_ORDER
+	param_str = '&'.join(['%s=%s' % (name, params[name]) for name in order if params.has_key(name)])
 	signature = generate_signature(param_str, private_key)
 	params['signature'] = signature
 	return params
