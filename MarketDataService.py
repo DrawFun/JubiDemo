@@ -18,7 +18,7 @@ class MarketDataService(BaseService.BaseService):
 	def get_ticker(self, coin):
 		param = {'coin' : coin}
 		url = self.restful_url + MarketDataService.GET_TICKER
-		self.logger.info('get_ticker: %s' % url)
+		self.logger.info('get_ticker: %s, %s' % (url, param))
 		response = requests.get(url, params = param)
 		return response.content if response else ''
 
@@ -31,14 +31,14 @@ class MarketDataService(BaseService.BaseService):
 	def get_depth(self, coin):
 		param = {'coin' : coin}
 		url = self.restful_url + MarketDataService.GET_DEPTH
-		self.logger.info('get_depth: %s' % url)
+		self.logger.info('get_depth: %s, %s' % (url, param))
 		response = requests.get(url, params = param)
 		return response.content if response else ''
 
 	def get_orders(self, coin):
 		param = {'coin' : coin}
 		url = self.restful_url + MarketDataService.GET_ORDERS
-		self.logger.info('get_orders: %s' % url)
+		self.logger.info('get_orders: %s, %s' % (url, param))
 		response = requests.get(url, params = param)
 		return response.content if response else ''		
 
