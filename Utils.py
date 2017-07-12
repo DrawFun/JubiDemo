@@ -16,7 +16,7 @@ def getMd5Hash(s):
 	return m.hexdigest()
 
 def generate_nonce_from_timestamp():
-	current_timestamp = time.time() * 100
+	current_timestamp = time.time() * 1000
 	return str(long(current_timestamp))
 
 generate_nonce = generate_nonce_from_timestamp
